@@ -2,7 +2,8 @@
 
 A data analytics case study exploring how annual members and casual riders use Cyclistic bikes differently, with the goal of informing marketing strategies to convert casual riders into annual members.
 
-📊 **[View Power BI Dashboard](https://app.powerbi.com/reportEmbed?reportId=e4c18ac0-042c-463c-ac3a-6336a0e5ca00&autoAuth=true&ctid=75a8f28a-d996-48b0-8ec0-1b201a5c163e)**
+ **[View Power BI Dashboard](https://app.powerbi.com/reportEmbed?reportId=e4c18ac0-042c-463c-ac3a-6336a0e5ca00&autoAuth=true&ctid=75a8f28a-d996-48b0-8ec0-1b201a5c163e)**
+ **[View Python Kaggle](https://www.kaggle.com/code/tazkiaikshanul/cyclistic-bike-share-analysis-2021)**
 
 ---
 
