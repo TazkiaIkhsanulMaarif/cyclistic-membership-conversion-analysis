@@ -263,6 +263,70 @@ These derived fields made it possible to analyze ride patterns by day type and t
 ---
 
 
+### 4. Exploratory Data Analysis
+
+Initial exploration looked at monthly and hourly ride volume, broken down by rider type, to identify visible patterns before deeper comparison.
+
+```sql
+SELECT
+  FORMAT_DATE('%B', DATE(started_at)) AS month_name,
+  member_casual,
+  COUNT(*) AS total_rides
+FROM cyclistic.cleaned_data
+GROUP BY month_name, member_casual
+ORDER BY total_rides DESC;
+```
+
+**Result:**
+
+<img width="440" height="221" alt="image" src="https://github.com/user-attachments/assets/6303b66b-f709-476d-8929-e559356582d0" />
+
+This stage revealed an early signal of seasonality in casual rider behavior, which was investigated further in the Business Insights stage.
+
+---
+
+### 5. Comparative Analysis
+
+This stage directly compared ride duration, bike type preference, and weekend usage between members and casual riders.
+
+```sql
+SELECT
+  member_casual,
+  ROUND(AVG(ride_length), 2) AS avg_ride_duration
+FROM cyclistic.cleaned_data
+GROUP BY member_casual;
+```
+
+**Result:**
+
+<img width="292" height="62" alt="image" src="https://github.com/user-attachments/assets/85bc3535-d349-4030-aa9b-0cc7e252855b" />
+
+The comparison confirmed a consistent and substantial gap in ride duration between the two groups, forming the basis of Key Insight #1 below.
+
+---
+
+### 6. Business Insights
+
+The final stage quantified the three strongest differentiators between rider types: ride duration, seasonality, and weekend concentration.
+
+```sql
+SELECT
+  month_name,
+  member_casual,
+  COUNT(*) AS total_rides
+FROM cyclistic.cleaned_data
+GROUP BY month_name, member_casual;
+```
+
+**Result:**
+
+<img width="439" height="222" alt="image" src="https://github.com/user-attachments/assets/7ee32167-8ced-4f6d-b28a-8bb30c76fe1e" />
+
+These results were translated into the three key insights and three marketing recommendations summarized below.
+
+---
+
+
 ## Key Insights
 
 ### 1. Casual Riders Use Bikes Primarily for Leisure Activities
@@ -276,16 +340,85 @@ GROUP BY member_casual;
 ```
 **Result:**
 
-<img width="507" height="65" alt="image" src="https://github.com/user-attachments/assets/76a08b0b-071c-43d8-b1bc-661c3f2841ce" />
+<img width="290" height="61" alt="image" src="https://github.com/user-attachments/assets/e271816d-dab8-45e9-ad94-37086c128f84" />
 
 Casual riders average **26.4 minutes** per ride, compared to just **12.9 minutes** for annual members — over 2× longer. This points to recreational use rather than routine transportation.
 
 ---
 
-**2. Seasonal demand strongly influences casual rider activity**
-Casual ride volume increases roughly **44×** between the lowest month (February) and the peak month (July), while member activity grows only about **9.7×** over the same period — far less seasonal volatility.
+### 2. Seasonal Demand Strongly Influences Casual Rider Activity
 
-**3. Weekend usage represents a major conversion opportunity**
+```sql
+WITH monthly_rides AS (
+  SELECT
+    FORMAT_DATE('%B', DATE(started_at)) AS month_name,
+    member_casual,
+    COUNT(*) AS total_rides
+  FROM cyclistic.cleaned_data
+  GROUP BY month_name, member_casual
+),
+
+ranked_months AS (
+  SELECT
+    member_casual,
+    month_name,
+    total_rides,
+    RANK() OVER (PARTITION BY member_casual ORDER BY total_rides DESC) AS rank_desc,
+    RANK() OVER (PARTITION BY member_casual ORDER BY total_rides ASC) AS rank_asc
+  FROM monthly_rides
+),
+
+peak_and_low AS (
+  SELECT
+    member_casual,
+    MAX(CASE WHEN rank_desc = 1 THEN month_name END) AS peak_month,
+    MAX(CASE WHEN rank_desc = 1 THEN total_rides END) AS peak_month_rides,
+    MAX(CASE WHEN rank_asc = 1 THEN month_name END) AS lowest_month,
+    MAX(CASE WHEN rank_asc = 1 THEN total_rides END) AS lowest_month_rides
+  FROM ranked_months
+  GROUP BY member_casual
+)
+
+SELECT
+  member_casual,
+  lowest_month,
+  lowest_month_rides,
+  peak_month,
+  peak_month_rides,
+  ROUND(peak_month_rides * 1.0 / lowest_month_rides, 1) AS growth_multiplier
+FROM peak_and_low
+ORDER BY member_casual;
+```
+
+**Result:**
+
+<img width="779" height="58" alt="image" src="https://github.com/user-attachments/assets/06d65315-b687-45eb-aba6-35cfea9e36bd" />
+
+Casual ride volume increases roughly **43.8×** between the lowest month (February) and the peak month (July), while member activity grows only about **9.9×** over the same period — far less seasonal volatility.
+
+---
+
+
+### 3. Weekend Usage Represents a Major Conversion Opportunity
+
+```sql
+SELECT
+  member_casual,
+  day_type,
+  COUNT(*) AS total_rides,
+  ROUND(
+    COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (PARTITION BY member_casual),
+    2
+  ) AS percentage
+FROM cyclistic.cleaned_data
+GROUP BY member_casual, day_type
+ORDER BY member_casual, day_type;
+```
+
+**Result:**
+
+<img width="440" height="100" alt="image" src="https://github.com/user-attachments/assets/fd4c9144-ac3a-4df6-b14e-99f169a6a08a" />
+
 **41.08%** of casual rides happen on weekends, compared to only **26.39%** of member rides — reinforcing that casual riders are largely recreational users.
 
 ---
