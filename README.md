@@ -47,20 +47,6 @@ The complete SQL scripts can be found in the [`/SQL`](./SQL) directory.
 
 ---
 
-## Example SQL Query
-
-```sql
-SELECT
-  member_casual,
-  ROUND(AVG(ride_length), 2) AS avg_ride_duration
-FROM cyclistic.cleaned_data
-GROUP BY member_casual;
-```
-
-This query compares average ride duration between annual members and casual riders, one of the strongest differentiators found in this analysis.
-
----
-
 ## Key Insights
 
 **1. Casual riders use bikes primarily for leisure activities**
