@@ -62,6 +62,7 @@ FROM cyclistic.cleaned_data
 GROUP BY member_casual;
 ```
 **Result:**
+
 <img width="507" height="65" alt="image" src="https://github.com/user-attachments/assets/76a08b0b-071c-43d8-b1bc-661c3f2841ce" />
 
 Casual riders average **26.4 minutes** per ride, compared to just **12.9 minutes** for annual members — over 2× longer. This points to recreational use rather than routine transportation.
