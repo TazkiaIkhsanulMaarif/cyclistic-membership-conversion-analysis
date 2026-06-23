@@ -1,5 +1,7 @@
 # [Cyclistic Bike-Share Case Study](https://drive.google.com/file/d/1NGzT_m9FjE2Mxp7oCho6dWnC_3flI47b/view?usp=sharing)
 
+<img width="727" height="415" alt="image" src="https://github.com/user-attachments/assets/94929add-5786-4a19-a76c-38d2479a9a3a" />
+
 A data analytics case study exploring how annual members and casual riders use Cyclistic bikes differently, with the goal of informing marketing strategies to convert casual riders into annual members.
 
  **[View Power BI Dashboard](https://app.powerbi.com/reportEmbed?reportId=e4c18ac0-042c-463c-ac3a-6336a0e5ca00&autoAuth=true&ctid=75a8f28a-d996-48b0-8ec0-1b201a5c163e)**
