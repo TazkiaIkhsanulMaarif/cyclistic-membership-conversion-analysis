@@ -34,23 +34,39 @@ The analysis was conducted using Google BigQuery and organized into six stages:
 5. Comparative Analysis
 6. Business Insights
 
+
 The complete SQL scripts can be found in the [`/SQL`](./SQL) directory.
 
 | File | Stage | Description |
 |---|---|---|
-| `01_data_validation.sql` | Data Validation | Checks for null values and duplicate ride IDs |
-| `02_data_cleaning.sql` | Data Cleaning | Calculates ride length and removes invalid durations |
-| `03_feature_engineering.sql` | Feature Engineering | Creates weekend flag and time-of-day categories |
-| `04_exploratory_analysis.sql` | Exploratory Analysis | Monthly and hourly ride trends |
-| `05_comparative_analysis.sql` | Comparative Analysis | Ride duration, bike type, and weekend usage by rider type |
-| `06_business_insights.sql` | Business Insights | Seasonality and key differentiator queries |
+| [`00_data_union.sql`](./SQL/00_data_union.sql) | Data Union | Combines monthly raw trip tables into a single unified view |
+| [`01_data_validation.sql`](./SQL/01_data_validation.sql) | Data Validation | Checks for null values and duplicate ride IDs |
+| [`02_data_cleaning.sql`](./SQL/02_data_cleaning.sql) | Data Cleaning | Calculates ride length and removes invalid durations |
+| [`03_feature_engineering.sql`](./SQL/03_feature_engineering.sql) | Feature Engineering | Creates weekend flag and time-of-day categories |
+| [`04_exploratory_analysis.sql`](./SQL/04_exploratory_analysis.sql) | Exploratory Analysis | Monthly and hourly ride trends |
+| [`05_comparative_analysis.sql`](./SQL/05_comparative_analysis.sql) | Comparative Analysis | Ride duration, bike type, and weekend usage by rider type |
+| [`06_business_insights.sql`](./SQL/06_business_insights.sql) | Business Insights | Seasonality and key differentiator queries |
 
 ---
 
+
 ## Key Insights
 
-**1. Casual riders use bikes primarily for leisure activities**
+### 1. Casual Riders Use Bikes Primarily for Leisure Activities
+
+```sql
+SELECT
+  member_casual,
+  ROUND(AVG(ride_length), 2) AS avg_ride_duration
+FROM cyclistic.cleaned_data
+GROUP BY member_casual;
+```
+**Result:**
+<img width="507" height="65" alt="image" src="https://github.com/user-attachments/assets/76a08b0b-071c-43d8-b1bc-661c3f2841ce" />
+
 Casual riders average **26.4 minutes** per ride, compared to just **12.9 minutes** for annual members — over 2× longer. This points to recreational use rather than routine transportation.
+
+---
 
 **2. Seasonal demand strongly influences casual rider activity**
 Casual ride volume increases roughly **44×** between the lowest month (February) and the peak month (July), while member activity grows only about **9.7×** over the same period — far less seasonal volatility.
