@@ -57,6 +57,8 @@ The complete SQL scripts can be found in the [`/SQL`](./SQL) directory.
 Twelve monthly raw trip tables (January–December 2021) were combined into a single unified view to enable analysis across the full year.
 
 ```sql
+CREATE OR REPLACE VIEW cyclistic.tripdata_view AS
+
 SELECT * FROM cyclistic.raw_202101
 UNION ALL
 SELECT * FROM cyclistic.raw_202102
@@ -224,9 +226,39 @@ WHERE TIMESTAMP_DIFF(ended_at, started_at, MINUTE) > 0
 
 **Result:**
 
-![Data cleaning result](./images/02_data_cleaning_result.png)
+<img width="909" height="158" alt="image" src="https://github.com/user-attachments/assets/3a4193df-083d-49ad-bed1-9189b59d8f8e" />
 
 The cleaned dataset (`cyclistic.cleaned_data`) excludes rides with implausible durations, ensuring downstream metrics like average ride length are not skewed by faulty records (e.g. maintenance check-outs or data entry errors).
+
+---
+
+
+### 3. Feature Engineering
+
+Two additional features were created to support deeper behavioral analysis: a weekend/weekday flag, and a time-of-day category.
+
+```sql
+-- Weekend Flag
+CASE
+  WHEN EXTRACT(DAYOFWEEK FROM started_at) IN (1, 7)
+  THEN 'Weekend'
+  ELSE 'Weekday'
+END AS weekend_flag
+
+-- Time Of Day
+CASE
+  WHEN EXTRACT(HOUR FROM started_at) BETWEEN 5 AND 11 THEN 'Morning'
+  WHEN EXTRACT(HOUR FROM started_at) BETWEEN 12 AND 16 THEN 'Afternoon'
+  WHEN EXTRACT(HOUR FROM started_at) BETWEEN 17 AND 20 THEN 'Evening'
+  ELSE 'Night'
+END AS time_of_day
+```
+
+**Result:**
+
+<img width="633" height="121" alt="image" src="https://github.com/user-attachments/assets/65051ca4-c13a-41ef-a8ae-728f9ccd7d90" /><img width="617" height="119" alt="image" src="https://github.com/user-attachments/assets/68a4f7e7-f317-44e5-b3eb-1a19ff7aa1c4" /><img width="632" height="122" alt="image" src="https://github.com/user-attachments/assets/e0c74b60-e77a-47c4-8f52-7bc7904267e4" /><img width="298" height="119" alt="image" src="https://github.com/user-attachments/assets/45fd8986-b027-40ea-93aa-0b76e912009f" />
+
+These derived fields made it possible to analyze ride patterns by day type and time of day, both of which turned out to be key differentiators between member and casual riders.
 
 ---
 
