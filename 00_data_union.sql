@@ -1,0 +1,25 @@
+CREATE OR REPLACE VIEW cyclistic.tripdata AS
+
+SELECT * FROM cyclistic.raw_202101
+UNION ALL
+SELECT * FROM cyclistic.raw_202102
+UNION ALL
+SELECT * FROM cyclistic.raw_202103
+UNION ALL
+SELECT * FROM cyclistic.raw_202104
+UNION ALL
+SELECT * FROM cyclistic.raw_202105
+UNION ALL
+SELECT * FROM cyclistic.raw_202106
+UNION ALL
+SELECT * FROM cyclistic.raw_202107
+UNION ALL
+SELECT * FROM cyclistic.raw_202108
+UNION ALL
+SELECT * FROM cyclistic.raw_202109
+UNION ALL
+SELECT * FROM cyclistic.raw_202110
+UNION ALL
+SELECT * FROM cyclistic.raw_202111
+UNION ALL
+SELECT * FROM cyclistic.raw_202112;
