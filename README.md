@@ -2,13 +2,13 @@
 
 A data analytics case study exploring how annual members and casual riders use Cyclistic bikes differently, with the goal of informing marketing strategies to convert casual riders into annual members.
 
-**[View Interactive Power BI Dashboard]([https://app.powerbi.com/view?r=YOUR_LINK_HERE](https://app.powerbi.com/reportEmbed?reportId=e4c18ac0-042c-463c-ac3a-6336a0e5ca00&autoAuth=true&ctid=75a8f28a-d996-48b0-8ec0-1b201a5c163e))**
+📊 **[View Interactive Power BI Dashboard](https://app.powerbi.com/reportEmbed?reportId=e4c18ac0-042c-463c-ac3a-6336a0e5ca00&autoAuth=true&ctid=75a8f28a-d996-48b0-8ec0-1b201a5c163e)**
 
 ---
 
 ## Project Overview
 
-This project follows the complete data analysis workflow—from historical trip records to actionable business recommendations—using Google BigQuery for data processing and Power BI for visualization.
+This project follows the complete data analysis workflow from historical trip records to actionable business recommendations using Google BigQuery for data processing and Power BI for visualization.
 
 ### Business Task
 
