@@ -1,4 +1,4 @@
-# Cyclistic Bike-Share Case Study
+# [Cyclistic Bike-Share Case Study](https://drive.google.com/file/d/1NGzT_m9FjE2Mxp7oCho6dWnC_3flI47b/view?usp=sharing)
 
 A data analytics case study exploring how annual members and casual riders use Cyclistic bikes differently, with the goal of informing marketing strategies to convert casual riders into annual members.
 
@@ -433,4 +433,4 @@ ORDER BY member_casual, day_type;
 
 ## Data Source
 
-Cyclistic trip data is based on Chicago's Divvy bike-share public dataset, used here under Cyclistic's fictional business case as part of the Google Data Analytics Certificate capstone project.
+[Cyclistic trip data](https://divvy-tripdata.s3.amazonaws.com/index.html) is based on Chicago's Divvy bike-share public dataset, used here under Cyclistic's fictional business case.
